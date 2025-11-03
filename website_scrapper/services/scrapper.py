@@ -6,6 +6,18 @@ import trafilatura
 import dateparser
 from datetime import datetime
 from website_scrapper.models import Website_Content
+
+def parse_date(date : str) -> datetime:
+    return dateparser.parse(
+                date,
+                languages=['en', 'pl'],
+                settings={
+                    "DATE_ORDER": "DMY",
+                    "PREFER_DAY_OF_MONTH": "first",
+                    "RELATIVE_BASE": datetime.now(),
+                },
+            )
+    
     
 
 class WebsiteScraperBuilder():
@@ -37,13 +49,14 @@ class WebsiteScraperBuilder():
     
     def extract_publication_date(self):
         try:
-            date = find_date(self.url, outputformat="%d-%m-%Y %H:%M:%S")
+            date = find_date(self.url)
             if date:
-                return date
+                final_date = parse_date(date = date)
+                if final_date:
+                    return final_date
         except Exception:
             pass 
         
-        considered_languages=["pl", "en"]
         html_tags_to_consider = ["meta", "time", "p", "span", "div"]
         
         for all_html_values in self.soup.find_all(html_tags_to_consider):
@@ -59,19 +72,15 @@ class WebsiteScraperBuilder():
 
             if not date or not any(potential_number.isdigit() for potential_number in date):
                 continue
+            
             date = date.strip(' .:\n\t')
             
-            final_date = dateparser.parse(
-                date,
-                languages=considered_languages,
-                settings={
-                    "DATE_ORDER": "DMY",
-                    "PREFER_DAY_OF_MONTH": "first",
-                    "RELATIVE_BASE": datetime.now(),
-                },
-            )
+            final_date = parse_date(date=date)
+            
             if final_date:
-                return final_date.strftime("%d-%m-%Y %H:%M:%S")
+                return final_date
+            
+        return None
             
 
     def save(self):
@@ -83,11 +92,6 @@ class WebsiteScraperBuilder():
             publication_date = self.extract_publication_date()
         )
         
-
-
-        
-            
-    
         
         
         
