@@ -1,6 +1,6 @@
 from django.db import models
 
-class Website_Content(models.Model):
+class WebsiteContent(models.Model):
     title = models.CharField(max_length = 150)
     website_html_content = models.TextField()
     website_plain_content = models.TextField()

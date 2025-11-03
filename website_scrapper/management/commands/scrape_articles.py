@@ -15,8 +15,8 @@ class Command(BaseCommand):
         
         for url in tqdm(urls_to_scrape, desc="Scraping articles", unit="url"):
             try:
-                scraper = WebsiteScraperBuilder(url)
-                scrapper, obtained  = scraper.save()
+                scraper_builder = WebsiteScraperBuilder(url)
+                scrapper, obtained  = scraper_builder.save()
             except Exception as e:
                 self.stdout.write(self.style.ERROR(f"Failed {url}: {e}"))
 
