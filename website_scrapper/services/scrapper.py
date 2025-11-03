@@ -5,7 +5,7 @@ import requests
 import trafilatura
 import dateparser
 from datetime import datetime
-from website_scrapper.models import Website_Content
+from website_scrapper.models import WebsiteContent
 
 def parse_date(date : str) -> datetime:
     return dateparser.parse(
@@ -84,12 +84,14 @@ class WebsiteScraperBuilder():
             
 
     def save(self):
-        return Website_Content.objects.get_or_create(
-            title = self.extract_website_title(),
-            website_html_content = self.extract_website_html_content(),
-            website_plain_content = self.extract_website_plain_content(),
-            url = self.extract_url(),
-            publication_date = self.extract_publication_date()
+        return WebsiteContent.objects.get_or_create(
+            url=self.extract_url(),
+            defaults={
+                "title": self.extract_website_title(),
+                "website_html_content": self.extract_website_html_content(),
+                "website_plain_content": self.extract_website_plain_content(),
+                "publication_date": self.extract_publication_date(),
+            }
         )
         
         
