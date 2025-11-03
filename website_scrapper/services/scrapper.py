@@ -83,23 +83,6 @@ class WebsiteScraperBuilder():
             publication_date = self.extract_publication_date()
         )
         
-urls = [
-    'https://galicjaexpress.pl/ford-c-max-jaki-silnik-benzynowy-wybrac-aby-zaoszczedzic-na-paliwie',
-    'https://galicjaexpress.pl/bmw-e9-30-cs-szczegolowe-informacje-o-osiagach-i-historii-modelu',
-    'https://take-group.github.io/example-blog-without-ssr/jak-kroic-piers-z-kurczaka-aby-uniknac-suchych-kawalkow-miesa',
-    'https://take-group.github.io/example-blog-without-ssr/co-mozna-zrobic-ze-schabu-oprocz-kotletow-5-zaskakujacych-przepisow',   
-    ]
-for url in urls:
-    foo = WebsiteScraperBuilder(url)
-    
-    print("------------")
-    #print(foo.extract_website_title())
-    #print(foo.extract_url())
-    #print(foo.extract_website_html_content())
-    #print(foo.extract_website_plain_content())
-    print(foo.extract_publication_date())
-        
-        
 
 
         
